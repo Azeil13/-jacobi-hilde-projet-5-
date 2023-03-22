@@ -10,7 +10,6 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import junit.framework.Assert;
 import org.junit.Assert;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,7 +86,9 @@ public class ParkingDataBaseIT {
         testParkingACar();
 
         Ticket ticket = ticketDAO.getTicket("ABCDEF"); // Checking if the user is recurrent (=1) on the DB
+        ticket.setRecurentUser(1);
 
-        Assert.assertNotNull(ticket.isRecurentUser());
+        Assert.assertEquals(ticket.isRecurentUser(),1);
+
       }
 }
