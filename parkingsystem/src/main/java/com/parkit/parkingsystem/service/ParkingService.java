@@ -44,6 +44,13 @@ public class ParkingService {
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
+                
+                //For ression mentor friday 31 march 2023 -using method getNbTicket Modify processIncomingVehicle method of the ParkingService class to display the welcome message.
+                int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+                       if(nbTicket>0) {
+                               System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                           }
+
                 Ticket oldTicket = ticketDAO.getTicket(vehicleRegNumber);
                         if (oldTicket != null) {
                                 ticket.setRecurentUser(1);
@@ -123,5 +130,27 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process exiting vehicle",e);
         }
+
+        //For ression mentor friday 31 march 2023 - using method getNbTicket Modify processExitingVehicle method of the ParkingService class 
+        try{
+            String vehicleRegNumber = getVehichleRegNumber();
+            NbTicket nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+            Date outTime = new Date();
+            nbticket.setOutTime(outTime);
+            fareCalculatorService.calculateFare(nbTicket);
+            if(nbticketDAO.updateNbTicket(nbTicket)) {
+                ParkingSpot parkingSpot = nbTicket.getParkingSpot();
+                parkingSpot.setAvailable(true);
+                parkingSpotDAO.updateParking(parkingSpot);
+                System.out.println("Please pay the parking fare:" + nbTicket.getPrice());
+                System.out.println("Recorded out-time for vehicle number:" +nbTicket.getVehicleRegNumber() + " is:" + outTime);
+            }else{
+                System.out.println("Unable to update ticket information. Error occurred");
+            }
+        }catch(Exception e){
+            logger.error("Unable to process exiting vehicle",e);
+        }
+
+
     }
 }

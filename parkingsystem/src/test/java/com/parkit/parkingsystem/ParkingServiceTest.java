@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
@@ -57,5 +58,14 @@ public class ParkingServiceTest {
         parkingService.processExitingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
+
+// ADD TEST  to verify method getNbTicket (for next session mentor friday31 march 2023 )
+     @Test
+    public void getNbTicketTest(){
+        int nbTicket = ticketDAO.getNbTicket("ABCDEF");
+        //verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        assertEquals(nbTicket, 1);
+}
+
 
 }
