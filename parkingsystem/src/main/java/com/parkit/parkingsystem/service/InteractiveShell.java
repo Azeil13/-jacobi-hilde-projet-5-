@@ -12,7 +12,7 @@ public class InteractiveShell {
 
     public static void loadInterface(){
         logger.info("App initialized!!!");
-        System.out.println("Welcome to Parking System!");
+        System.out.println("TEST Welcome to Parking System!");
 
         boolean continueApp = true;
         InputReaderUtil inputReaderUtil = new InputReaderUtil();
