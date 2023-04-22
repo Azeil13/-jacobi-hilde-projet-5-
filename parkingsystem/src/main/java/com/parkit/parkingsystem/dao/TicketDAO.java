@@ -52,13 +52,14 @@ public class TicketDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 ticket = new Ticket();
-                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(7)),false);
+                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setId(rs.getInt(2));
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(rs.getDouble(3));
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
+                
                 //ticket.setRecurentUser(rs.getInt(6));
             }
             dataBaseConfig.closeResultSet(rs);
@@ -74,6 +75,8 @@ public class TicketDAO {
     public int getNbTicket(String vehicleRegNumber) {
         Connection con = null;
         int nbTicket = 0;
+
+        System.out.println("AAA - entering getNbTiket(vehiculeReg = " + vehicleRegNumber);
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_NB_TICKET);
@@ -83,12 +86,14 @@ public class TicketDAO {
             if(rs.next()){
             nbTicket = rs.getInt(1); // number of tickets are registered for a vehicle
             }
+            System.out.println("AAA - nbTicket = " + nbTicket);
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
+            System.out.println("AAA - return = " + nbTicket);
             return nbTicket; // return number of tickets are registered for a vehicle
         }
     }

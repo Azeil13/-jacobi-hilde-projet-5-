@@ -3,6 +3,11 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+/**
+* class FareCalculatorService is the calculation of the ticket price
+*
+* @author Hilde Jacobi
+*/
 
 public class FareCalculatorService {
     public void calculateFare(Ticket ticket){

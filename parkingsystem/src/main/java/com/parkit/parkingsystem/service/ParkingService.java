@@ -10,6 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
+/**
+* class ParkingService that manages parking services.
+*
+* @author Hilde Jacobi
+*/
 
 public class ParkingService {
 
@@ -27,6 +32,14 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+/**
+* method processIncomingVehicle() that manages the arrival of a vehicle.
+* When the user enters, the system asks for the type of vehicle (car or motorcycle) 
+* and the license plate number, then lets the user enter if a space is available. 
+* It also tells the user where to park.
+* 
+* @author Hilde Jacobi
+*/
     public void processIncomingVehicle() {
         try{
             System.out.println("processIncomingVehicle");
@@ -118,22 +131,39 @@ public class ParkingService {
         }
     }
 
+
+
+/**
+* method processExitingVehicle() that manages the exit of a vehicle.
+* When the vehicle leaves the parking, the user again indicates his license plate number.
+* The system then calculates and displays the price according 
+* to the duration of parking lot and type of vehicle, then returns to the home menu.
+* 
+* @author Hilde Jacobi
+*/
     public void processExitingVehicle() {
+       System.out.println("begin processExitingVehicle method");
         //For ression mentor friday 31 march 2023 - using method getNbTicket Modify processExitingVehicle method of the ParkingService class 
         try{
             String vehicleRegNumber = getVehichleRegNumber();
+            System.out.println("vehiculeRegNumber = " + vehicleRegNumber);
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            System.out.println("Ticket = In Time : " + ticket.getInTime());
             int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+            System.out.println("nbTicket = " + nbTicket);
             
             // We check if the user is recurrent
             if (nbTicket > 1) { // user is recurrent
                 ticket.setRecurentUser(1);
+                System.out.println("is recurrent");
             } else  { // user is not recurrent
                 ticket.setRecurentUser(0);
+                System.out.println("is not recurrent");
             }
             
             Date outTime = new Date();
             ticket.setOutTime(outTime);
+            System.out.println("Ticket = Out Time : " + ticket.getOutTime());
             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();

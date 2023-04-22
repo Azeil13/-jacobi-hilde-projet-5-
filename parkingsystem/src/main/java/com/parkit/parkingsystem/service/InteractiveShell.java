@@ -6,6 +6,14 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+* class InteractiveShell is the Human Machine Interface. 
+* When launching the application, 
+* the user must select an action: enter the parking lot or exit or quit the application.
+*
+* @author Hilde Jacobi
+*/
+
 public class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
