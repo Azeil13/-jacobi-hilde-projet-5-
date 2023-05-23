@@ -52,18 +52,20 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingACar(){
+    public void testParkingACar(){  // Integration Test # 1 present in the testParkingACar( ) method
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
+        // add code for Parking table is updated with availability
         Ticket ticket = ticketDAO.getTicket("ABCDEF"); // Checking if the ticket ABCDEF enter correctly in the DB
 
         Assert.assertNotNull(ticket);
         }
 
     @Test
-    public void testParkingLotExit(){
-        testParkingACar();
+    public void testParkingLotExit(){  // Integration Test # 2 present in the testParkingLotExit( )  method
+        //testParkingACar(); never add method test inside another method test
+        // need to use a code to enter a vehicle below 
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         try {
            Thread.sleep(5000);
@@ -79,16 +81,19 @@ public class ParkingDataBaseIT {
         Assert.assertNotNull(ticket.getPrice());
         Assert.assertNotNull(ticket.getOutTime());
     }
-
+/* redone the test below change the name and go over all the test to change it
+   // change the name to Integration Test #3 : testParkingLotExitRecurringUser( ) 
+    //Integration Test # 3 present in the testParkingLotExitRecurringUser( ) method
     @Test
     public void testRecurentUser(){
-        testParkingLotExit();
+        testParkingLotExit(); // never call test inside a test
         testParkingACar();
 
         Ticket ticket = ticketDAO.getTicket("ABCDEF"); // Checking if the user is recurrent (=1) on the DB
-        ticket.setRecurentUser(1);
+        ticket.setRecurentUser(1); // getNBticket will say if recurent  because price modify of 5% discount
 
         Assert.assertEquals(ticket.isRecurentUser(),1);
 
       }
 }
+*/

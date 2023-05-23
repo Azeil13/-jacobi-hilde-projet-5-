@@ -76,7 +76,6 @@ public class TicketDAO {
         Connection con = null;
         int nbTicket = 0;
 
-        System.out.println("AAA - entering getNbTiket(vehiculeReg = " + vehicleRegNumber);
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_NB_TICKET);
@@ -86,7 +85,7 @@ public class TicketDAO {
             if(rs.next()){
             nbTicket = rs.getInt(1); // number of tickets are registered for a vehicle
             }
-            System.out.println("AAA - nbTicket = " + nbTicket);
+            
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
         }catch (Exception ex){

@@ -64,7 +64,7 @@ public class ParkingServiceTest {
 
 //removed the comment below @Test   public void getNbTicketTest() put all in comment below to be able to exit and enter vehicle for Etape 4 : Développez la fonctionnalité des 5% de remise (for next session mentor Thursday 10 may  2023 )
 // TEST EN ECHEC
-// ADD TEST  to verify method getNbTicket (for next session mentor friday31 march 2023 )
+// ADD TEST  to verify method getNbTicket (for next session mentor  Wednesday 23 may 2023 )
      @Test
     public void getNbTicketTest(){
         System.out.println("AAA ! begin");
@@ -79,8 +79,10 @@ public class ParkingServiceTest {
  // put all in comment below to be able to exit eand enter vehicle for Etape 4 : Développez la fonctionnalité des 5% de remise (for next session mentor Thursday 10 may  2023 )
 // ADD TEST  processExitingVehicleTest to mock method getNbTicket 
 //(step 5: test the Parking service class individually using Mocks)
-//(for next session mentor wednesday Wednesday 19  april 2023 )
 
+
+//(for next session mentor  tuesday 23 may 2023 )
+//keep  comment From line 86 to 110)
 /*
     @Test
     public void processExitingVehicleTest() {
@@ -107,7 +109,10 @@ public class ParkingServiceTest {
         }
 
 */
-/*
+
+
+//(for next session mentor  tuesday 23 may 2023 )
+//REMOVED  comment From line 116 to 130    FOR STEP 5 - Unit Test #1:call of the processIncomingVehicle() method where everything happens as expected.)
     @Test
     public void testprocessIncomingVehicle(){
         //GIVEN
@@ -117,6 +122,7 @@ public class ParkingServiceTest {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         //WHEN
+
         parkingService.processIncomingVehicle();
 
         //THEN
@@ -124,6 +130,8 @@ public class ParkingServiceTest {
     }
 
 
+//(for next session mentor  tuesday 23 may 2023 )
+//REMOVED  comment From line 134 to 148   FOR STEP 5 - Unit Test #2:processExitingVehicleTestUnableUpdate: execution of the test in the event that the updateTicket() method of ticketDAO returns false when calling processExitingVehicle()  )
     @Test
     public void processExitingVehicleTestUnableUpdate(){
         //GIVEN
@@ -141,12 +149,14 @@ public class ParkingServiceTest {
     }
     
 
+//(for next session mentor  tuesday 23 may 2023 )
+//REMOVED  comment From line 134 to 148   FOR STEP 5 - Unit Test #3: testGetNextParkingNumberIfAvailable: test of the call to the getNextParkingNumberIfAvailable() method with the result of obtaining a spot whose ID is 1 and which is available.  )
      @Test
      public void testGetNextParkingNumberIfAvailable(){
        //GIVEN
        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
        when(inputReaderUtil.readSelection()).thenReturn(1);
-       when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(0);
+       when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
 
        //WHEN
        ParkingSpot actualParkingSpot = parkingService.getNextParkingNumberIfAvailable();
@@ -155,10 +165,32 @@ public class ParkingServiceTest {
        verify(inputReaderUtil).readSelection();
        verify(parkingSpotDAO).getNextAvailableSlot(any());
         assertNull(actualParkingSpot);  
+        // verify if available spot add code below
      }
-    
 
-     @Test
+
+//(for next session mentor  tuesday 23 may 2023 )
+// FOR STEP 5 - Unit Test # 4 :testGetNextParkingNumberIfAvailableParkingNumberNotFound: test of the call to the getNextParkingNumberIfAvailable() method with the result of no available spot (the method returns null).
+    @Test // test is Ok 
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound(){
+        //GIVEN
+       parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+       when(inputReaderUtil.readSelection()).thenReturn(0);
+       when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(0);
+
+       //WHEN
+       ParkingSpot actualParkingSpot = parkingService.getNextParkingNumberIfAvailable();
+
+       //THEN
+       verify(inputReaderUtil).readSelection();
+       verify(parkingSpotDAO).getNextAvailableSlot(any());
+        assertNull(actualParkingSpot);
+    }
+
+
+//(for next session mentor  tuesday 23 may 2023 )
+//REMOVED  comment   FOR STEP 5 - Unit Test # 5 :testGetNextParkingNumberIfAvailableParkingNumberWrongArgument: test of the call to the getNextParkingNumberIfAvailable() method with the result of no spot (the method returns null) because the argument entered by the user concerning the type of vehicle is wrong (for example, the user entered 3 ).
+     @Test // code is ok
      public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
          //GIVEN
          parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -171,7 +203,7 @@ public class ParkingServiceTest {
          verify(inputReaderUtil).readSelection();
          assertNull(actualParkingSpot);
      }
-        */
+        
 
 
 
