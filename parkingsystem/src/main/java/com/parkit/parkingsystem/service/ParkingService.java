@@ -61,10 +61,25 @@ public class ParkingService {
                 
                 //For ression mentor friday 31 march 2023 -using method getNbTicket Modify processIncomingVehicle method of the ParkingService class to display the welcome message.
                 int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+                
+                /* FOR SESSION MENTOR TUESDAY 6 JUNE 2023 PUT IN COMMENT LINE BELOW and add modify code BELOW
                        if(nbTicket>0) {
                                System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
                            }
+                */
 
+                // FOR SESSION MENTOR TUESDAY 6 JUNE 2023  add code line 72 to 77 to replace the code line 65 to 67  + line 82 to 90
+                        if (nbTicket > 0) {//If the count is greater than 0, it means that the user is a recurring user, and the appropriate message is displayed.
+                            ticket.setRecurentUser(1);
+                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                        } else {
+                            ticket.setRecurentUser(0);
+            }
+
+
+
+
+                /*  FOR SESSION MENTOR TUESDAY 6 JUNE 2023 PUT IN COMMENT LINE BELOW and add modify code above 
                 Ticket oldTicket = ticketDAO.getTicket(vehicleRegNumber);
                         if (oldTicket != null) {
                                 ticket.setRecurentUser(1);
@@ -72,6 +87,7 @@ public class ParkingService {
                         } else {
                                 ticket.setRecurentUser(0);
                         }
+                */
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
