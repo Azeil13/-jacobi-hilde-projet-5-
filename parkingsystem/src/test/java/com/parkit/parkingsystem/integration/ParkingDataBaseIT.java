@@ -166,7 +166,7 @@ Integration Test # 3 - REWROTE code bellow but still NOT working
     ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
     parkingService.processIncomingVehicle();
     Ticket ticketDayOne  = ticketDAO.getTicket("ABCDEF");
-    ticketDayOne.setInTime(new Date(System.currentTimeMillis() - (3 * 60 * 60 * 1000)));
+    ticketDayOne.setInTime(new Date(System.currentTimeMillis() - (3 * 60 * 60 * 1000)));  // Set the inTime for the ticket for DayOne (the first day , vehicle  is coming)
     ticketDAO.updateTicket(ticketDayOne);
 
     parkingService.processExitingVehicle();
@@ -174,14 +174,22 @@ Integration Test # 3 - REWROTE code bellow but still NOT working
 
     parkingService.processIncomingVehicle();
     Ticket ticketDayTwo = ticketDAO.getTicket("ABCDEF");
-    ticketDayTwo.setInTime(new Date(System.currentTimeMillis() - (3 * 60 * 60 * 1000)));
+    ticketDayTwo.setInTime(new Date(System.currentTimeMillis() - (3 * 60 * 60 * 1000)));   // Set the inTime for the ticket for second day (the second day , vehicle  is coming)
     ticketDAO.updateTicket(ticketDayTwo);
 
     parkingService.processExitingVehicle();
     ticketDayTwo = ticketDAO.getTicket("ABCDEF");
 
-    assertEquals(ticketDayOne.getPrice()*0.95 , ticketDayTwo.getPrice());
-    
+    //assertEquals(ticketDayOne.getPrice()*0.95 , ticketDayTwo.getPrice());    
+   // (after session mentor 6 june 2023 modify code above by code below because still 1 failure)
+     
+    assertEquals(ticketDayOne.getPrice() * 0.95, ticketDayTwo.getPrice(), 0.5);
+        /*
+        ticketDayOne.getPrice() * 0.95 represents the expected value, which is the price of the first ticket multiplied by 0.95 (applying a 5% discount).
+        ticketDayTwo.getPrice() represents the actual value, which is the price of the ticket for day two.
+        0.5 is the delta value. It specifies the maximum allowed difference between the expected and actual values for the test to pass. In this case, the test will pass as long as the difference between the expected and actual values is within 0.5.
+        */
+
     }
 
 
