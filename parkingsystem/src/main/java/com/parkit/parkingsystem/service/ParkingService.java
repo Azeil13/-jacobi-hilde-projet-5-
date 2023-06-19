@@ -59,40 +59,26 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 
-                //For ression mentor friday 31 march 2023 -using method getNbTicket Modify processIncomingVehicle method of the ParkingService class to display the welcome message.
-                int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+
+                // using method getNbTicket Modify processIncomingVehicle method of the ParkingService class to display the welcome message.
+                // The purpose of this code block is to identify recurring users based on the number of previous tickets associated with their vehicle registration number and provide them with a welcome message and discount if they are returning customers.
+                int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);    //This line retrieves the count of tickets associated with the given vehicleRegNumber using the getNbTicket() method. The vehicleRegNumber is passed as a parameter to the method.
                 
-                /* FOR SESSION MENTOR TUESDAY 6 JUNE 2023 PUT IN COMMENT LINE BELOW and add modify code BELOW
-                       if(nbTicket>0) {
-                               System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
-                           }
-                */
-
-                // FOR SESSION MENTOR TUESDAY 6 JUNE 2023  add code line 72 to 77 to replace the code line 65 to 67  + line 82 to 90
-                        if (nbTicket > 0) {//If the count is greater than 0, it means that the user is a recurring user, and the appropriate message is displayed.
-                            ticket.setRecurentUser(1);
-                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                        if (nbTicket > 0) {         //If the count is greater than 0, it means that the user is a recurring user, and the appropriate message is displayed.
+                            ticket.setRecurentUser(1);        //This line sets the recurentUser property of the ticket object to 1 (indicating a recurring user).
+                            System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");                      //This line displays a welcome message to the user indicating that they are a recurring user and will receive a 5% discount.
                         } else {
-                            ticket.setRecurentUser(0);
-            }
+                            ticket.setRecurentUser(0);  //count of tickets is not greater than zero, this line sets the recurentUser property of the ticket object to 0 (indicating a non-recurring user).
+                        }   
 
 
 
-
-                /*  FOR SESSION MENTOR TUESDAY 6 JUNE 2023 PUT IN COMMENT LINE BELOW and add modify code above 
-                Ticket oldTicket = ticketDAO.getTicket(vehicleRegNumber);
-                        if (oldTicket != null) {
-                                ticket.setRecurentUser(1);
-                                System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
-                        } else {
-                                ticket.setRecurentUser(0);
-                        }
-                */
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
             }
+
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
@@ -158,40 +144,40 @@ public class ParkingService {
 * @author Hilde Jacobi
 */
     public void processExitingVehicle() {
-       System.out.println("begin processExitingVehicle method");
-        //For ression mentor friday 31 march 2023 - using method getNbTicket Modify processExitingVehicle method of the ParkingService class 
+       System.out.println("begin processExitingVehicle method");           // This line simply prints a message indicating the beginning of the processExitingVehicle() method.
+        
         try{
-            String vehicleRegNumber = getVehichleRegNumber();
-            System.out.println("vehiculeRegNumber = " + vehicleRegNumber);
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            String vehicleRegNumber = getVehichleRegNumber();              //This line calls the getVehichleRegNumber() method to prompt the user to enter the vehicle registration number and assigns the input to the vehicleRegNumber variable.
+            System.out.println("vehiculeRegNumber = " + vehicleRegNumber);    
+            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);         //This line retrieves the ticket associated with the given vehicleRegNumber using the getTicket() method from the ticketDAO object. The retrieved ticket is assigned to the ticket variable.
             System.out.println("Ticket = In Time : " + ticket.getInTime());
-            int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);
+            int nbTicket = ticketDAO.getNbTicket(vehicleRegNumber);        //This line retrieves the count of tickets associated with the given vehicleRegNumber using the getNbTicket() method from the ticketDAO object. The count is assigned to the nbTicket variable.
             System.out.println("nbTicket = " + nbTicket);
             
             // We check if the user is recurrent
-            if (nbTicket > 1) { // user is recurrent
-                ticket.setRecurentUser(1);
+            if (nbTicket > 1) { // user is recurrent      because there is more than one previous ticket associated with the given vehicle registration number.
+                ticket.setRecurentUser(1);              //This line sets the recurentUser property of the ticket object to 1 (indicating a recurring user).
                 System.out.println("is recurrent");
             } else  { // user is not recurrent
                 ticket.setRecurentUser(0);
                 System.out.println("is not recurrent");
             }
             
-            Date outTime = new Date();
-            ticket.setOutTime(outTime);
+            Date outTime = new Date();      // This line creates a new Date object representing the current time, which will be used as the out time for the ticket.
+            ticket.setOutTime(outTime);     //This line sets the outTime property of the ticket object to the current time.
             System.out.println("Ticket = Out Time : " + ticket.getOutTime());
-            fareCalculatorService.calculateFare(ticket);
-            if(ticketDAO.updateTicket(ticket)) {
-                ParkingSpot parkingSpot = ticket.getParkingSpot();
-                parkingSpot.setAvailable(true);
-                parkingSpotDAO.updateParking(parkingSpot);
-                System.out.println("Please pay the parking fare:" + ticket.getPrice());
-                System.out.println("Recorded out-time for vehicle number:" +ticket.getVehicleRegNumber() + " is:" + outTime);
+            fareCalculatorService.calculateFare(ticket);        //This line calls the calculateFare() method of the fareCalculatorService object to calculate the fare for the ticket based on the in and out times and the vehicle type.
+            if(ticketDAO.updateTicket(ticket)) {              //This condition checks if the ticket information was successfully updated in the database using the updateTicket() method of the ticketDAO object.
+                ParkingSpot parkingSpot = ticket.getParkingSpot();     //This line retrieves the parking spot associated with the ticket from the ticket object.
+                parkingSpot.setAvailable(true);                        //This line sets the available property of the parkingSpot object to true, indicating that the spot is now available.
+                parkingSpotDAO.updateParking(parkingSpot);   //This line updates the parking spot information in the database using the updateParking() method of the parkingSpotDAO object.
+                System.out.println("Please pay the parking fare:" + ticket.getPrice());       //This line prints a message instructing the user to pay the parking fare, which is retrieved from the ticket object.
+                System.out.println("Recorded out-time for vehicle number:" +ticket.getVehicleRegNumber() + " is:" + outTime);     //This line prints a message displaying the recorded out time for the vehicle, which is the current time.
             }else{
-                System.out.println("Unable to update ticket information. Error occurred");
+                System.out.println("Unable to update ticket information. Error occurred");    
             }
         }catch(Exception e){
-            logger.error("Unable to process exiting vehicle",e);
+            logger.error("Unable to process exiting vehicle",e);   //If any exception occurs
         }
 
 
