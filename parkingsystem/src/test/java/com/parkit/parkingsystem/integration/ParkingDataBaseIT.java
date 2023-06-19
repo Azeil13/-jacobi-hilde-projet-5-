@@ -57,6 +57,7 @@ public class ParkingDataBaseIT {
     }
 
 
+
 /*   
 Integration Test # 1 
 */
@@ -66,7 +67,6 @@ Integration Test # 1
         int slotAvant = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR); //to save the slot before
         parkingService.processIncomingVehicle();
      
-        
         
 
         int slotApres = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
